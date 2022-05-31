@@ -1,12 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import { VFC } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Article } from "../types/article";
 import { NewsItme } from "../types/newsItme";
+import { RootStackParamList } from "../types/navigation";
 
-export const ListItem: VFC<Article> = ({ urlToImage, title, author }) => {
+type Props = {
+  urlToImage: string;
+  title: string;
+  author: string;
+  onPress: () => void;
+};
+
+export const ListItem: VFC<RootStackParamList> = ({
+  urlToImage,
+  title,
+  author,
+  onPress,
+}) => {
   return (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
       <View style={styles.leftContainer}>
         {!!urlToImage && (
           <Image
@@ -21,7 +35,7 @@ export const ListItem: VFC<Article> = ({ urlToImage, title, author }) => {
         </Text>
         <Text style={styles.subText}>{author}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
