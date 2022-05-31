@@ -1,28 +1,25 @@
 import { StatusBar } from "expo-status-bar";
 import { VFC } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { Article } from "../types/article";
+import { NewsItme } from "../types/newsItme";
 
-type Props = {
-  imageUrl: string;
-  title: string;
-  auther: string;
-};
-
-export const ListItem: VFC<Props> = ({
-  imageUrl,
-  title,
-  auther,
-}) => {
+export const ListItem: VFC<Article> = ({ urlToImage, title, author }) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.leftContainer}>
-        <Image style={{ width: 100, height: 100 }} source={{ uri: imageUrl }} />
+        {!!urlToImage && (
+          <Image
+            style={{ width: 100, height: 100 }}
+            source={{ uri: urlToImage }}
+          />
+        )}
       </View>
       <View style={styles.rightContainer}>
         <Text numberOfLines={3} style={styles.text}>
           {title}
         </Text>
-        <Text style={styles.subText}>{auther}</Text>
+        <Text style={styles.subText}>{author}</Text>
       </View>
     </View>
   );

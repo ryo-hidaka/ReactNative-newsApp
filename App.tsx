@@ -1,18 +1,41 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
+import React from "react";
+import { useEffect, useState } from "react";
+import { StyleSheet, FlatList, SafeAreaView } from "react-native";
+import axios from "axios";
 import { ListItem } from "./componetnts/ListItem";
-import articles from "./dummies/articles.json";
-
+import dummyArticles from "./dummies/articles.json";
+import Constants from "expo-constants";
+import { Article } from "./types/article";
+import { AllArticles } from "./types/allArticles";
 export default function App() {
+  const [articles, setArticles] = useState<Array<Article>>(dummyArticles);
+  const URL = `https://newsapi.org/v2/top-headlines?country=jp&apiKey=${Constants.manifest.extra.newsApiKey}`;
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  const fetchArticles = async () => {
+    axios
+      .get(URL)
+      .then((res) => {
+        setArticles(res.data.articles);
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={articles}
         renderItem={({ item }) => (
           <ListItem
-            imageUrl={item.urlToImage}
+            urlToImage={item.urlToImage}
             title={item.title}
-            auther={item.author}
+            author={item.author}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
