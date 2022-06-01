@@ -20,7 +20,6 @@ type Props = {
 
 export const HomeScreen = (props: Props) => {
   const { navigation } = props;
-  console.log(navigation);
   const [articles, setArticles] = useState<Array<Article>>(dummyArticles);
   const URL = `https://newsapi.org/v2/top-headlines?country=jp&apiKey=${Constants.manifest.extra.newsApiKey}`;
 
@@ -33,11 +32,8 @@ export const HomeScreen = (props: Props) => {
       .get(URL)
       .then((res) => {
         setArticles(res.data.articles);
-        console.log(res);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -53,8 +49,6 @@ export const HomeScreen = (props: Props) => {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 };

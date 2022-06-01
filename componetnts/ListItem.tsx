@@ -5,7 +5,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Article } from "../types/article";
 import { NewsItme } from "../types/newsItme";
 import { RootStackParamList } from "../types/navigation";
-
+import { FlatList, SafeAreaView, Platform } from "react-native";
+import Constants from "expo-constants";
 type Props = {
   urlToImage: string;
   title: string;
@@ -13,7 +14,7 @@ type Props = {
   onPress: () => void;
 };
 
-export const ListItem: VFC<RootStackParamList> = ({
+export const ListItem: VFC<Props> = ({
   urlToImage,
   title,
   author,
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
   },
   leftContainer: {
     width: 100,
+    paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
   },
   rightContainer: {
     flex: 1,
