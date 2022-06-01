@@ -11,7 +11,11 @@ import { ArticleScreen } from "../screens/ArticleScreen";
 import { ClipScreen } from "../screens/ClipScreen";
 
 import { RootStackParamList } from "../types/navigation";
-import { SafeAreaView, StyleSheet } from "react-native";
+import {  StyleSheet } from "react-native";
+import { Authentication } from "../componetnts/Authentication";
+import { useSelector } from "react-redux";
+import { LoginState } from "../types/state";
+import { Login } from "../types/login";
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -58,15 +62,30 @@ const screenOption = ({ route }: Props): BottomTabNavigationOptions => ({
     return <FontAwesome name={iconName} size={size} color={color} />;
   },
 });
+const loginFlag = useSelector((state: LoginState) => state.flag) as Login;
 
 export const AppNagigator = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={screenOption}>
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Clip" component={ClipStack} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>
+      {loginFlag ? (
+          <Authentication></Authentication>
+      ) : (
+        <NavigationContainer>
+        <Tab.Navigator screenOptions={screenOption}>
+          <Tab.Screen name="Home" component={HomeStack} />
+          <Tab.Screen name="Clip" component={ClipStack} />
+        </Tab.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Article" component={ArticleScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      )}
+    </>
   );
 };
 

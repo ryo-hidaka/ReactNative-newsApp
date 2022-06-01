@@ -1,10 +1,12 @@
 import { combineReducers, createStore } from "redux";
 import { reducer } from "./reducers/user";
+import { loginreducer } from "./reducers/login";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistReducer, persistStore } from "redux-persist";
 import { AsyncStorage } from "react-native";
 const rootReducer = combineReducers({
   user: reducer,
+  login: loginreducer,
 });
 const persistCOnfig = {
   key: "root",
