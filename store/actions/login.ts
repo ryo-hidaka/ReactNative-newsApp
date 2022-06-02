@@ -11,3 +11,15 @@ export const login = (flag: Login) => {
     flag,
   };
 };
+
+export type LogoutAction = {
+  type: "LOGOUT";
+  flag: Login;
+};
+
+export const logout = (flag: Login) => {
+  return {
+    type: "LOGOUT",
+    flag,
+  };
+};

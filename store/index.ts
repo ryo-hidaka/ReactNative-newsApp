@@ -4,18 +4,19 @@ import { loginreducer } from "./reducers/login";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistReducer, persistStore } from "redux-persist";
 import { AsyncStorage } from "react-native";
-const rootReducer = combineReducers({
-  user: reducer,
-  login: loginreducer,
-});
-const persistCOnfig = {
-  key: "root",
-  storage: AsyncStorage,
-  whilelist: ["user"],
-};
-const persistedReducer = persistReducer(persistCOnfig, rootReducer);
+import { RootReducer } from "./RootReducer";
+// const rootReducer = combineReducers({
+//   rootReducer
+// });
+// const persistCOnfig = {
+//   key: "root",
+//   storage: AsyncStorage,
+//   whilelist: ["user"],
+// };
+// const persistedReducer = persistReducer(persistCOnfig, RootReducer);
 
-const store = createStore(persistedReducer, composeWithDevTools());
+// const store = createStore(persistedReducer, composeWithDevTools());
+// export const persistor = persistStore(store);
+const store = createStore(RootReducer);
 
-export const persistor = persistStore(store);
 export default store;

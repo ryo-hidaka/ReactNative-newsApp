@@ -8,49 +8,74 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { HomeScreen } from "../screens/HomeScreen";
 import { ArticleScreen } from "../screens/ArticleScreen";
+import { AuthenticationScreen } from "../screens/AuthenticationScreen";
 import { ClipScreen } from "../screens/ClipScreen";
 
 import { RootStackParamList } from "../types/navigation";
-import {  StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, Text } from "react-native";
 import { Authentication } from "../componetnts/Authentication";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoginState } from "../types/state";
 import { Login } from "../types/login";
+import { login } from "../store/actions/login";
+import { RootReducer, RootState } from "../store/RootReducer";
 
-const Stack = createStackNavigator<RootStackParamList>();
+const RootStack = createStackNavigator();
+const MainStack = createStackNavigator();
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
 type Props = {
   route: RouteProp<RootStackParamList>;
 };
+
 const HomeStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <RootStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Login"
+    >
+      <RootStack.Screen name="MainStack" component={Main} />
+      <RootStack.Screen name="Login" component={AuthenticationScreen} />
+    </RootStack.Navigator>
+  );
+};
+const Main = () => {
+  return (
+    // <Stack.Navigator>
+    //   <Stack.Screen
+    //     name="Home"
+    //     component={HomeScreen}
+    //     options={{ headerShown: false }}
+    //   />
+    //   <Stack.Screen name="Article" component={ArticleScreen} />
+    // </Stack.Navigator>
+
+    <MainStack.Navigator>
+      <MainStack.Screen
         name="Home"
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Article" component={ArticleScreen} />
-    </Stack.Navigator>
+      <MainStack.Screen name="Article" component={ArticleScreen} />
+    </MainStack.Navigator>
   );
 };
 
 const ClipStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <MainStack.Navigator>
+      <MainStack.Screen
         name="Clip"
         component={ClipScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Article" component={ArticleScreen} />
-    </Stack.Navigator>
+      <MainStack.Screen name="Article" component={ArticleScreen} />
+    </MainStack.Navigator>
   );
 };
+
 const screenOption = ({ route }: Props): BottomTabNavigationOptions => ({
   tabBarIcon: ({ color, size }) => {
-    console.log(route);
     type GlyphNames = ComponentProps<typeof FontAwesome>["name"];
     let iconName: GlyphNames;
     if (route.name === "Home") {
@@ -62,29 +87,31 @@ const screenOption = ({ route }: Props): BottomTabNavigationOptions => ({
     return <FontAwesome name={iconName} size={size} color={color} />;
   },
 });
-const loginFlag = useSelector((state: LoginState) => state.flag) as Login;
 
 export const AppNagigator = () => {
+  const loginFlag = useSelector((state: RootState) => state.login) as Login;
+  console.log(loginFlag);
+
   return (
     <>
-      {loginFlag ? (
-          <Authentication></Authentication>
-      ) : (
+      {/* {loginFlag ? (
         <NavigationContainer>
-        <Tab.Navigator screenOptions={screenOption}>
-          <Tab.Screen name="Home" component={HomeStack} />
-          <Tab.Screen name="Clip" component={ClipStack} />
-        </Tab.Navigator>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="Article" component={ArticleScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      )}
+          <RootStack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName="Login"
+          >
+            <RootStack.Screen name="MainStack" component={Main} />
+            <RootStack.Screen name="Login" component={AuthenticationScreen} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      ) : ( */}
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={screenOption}>
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Clip" component={ClipStack} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      {/* )} */}
     </>
   );
 };

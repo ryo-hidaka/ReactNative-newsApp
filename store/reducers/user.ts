@@ -9,7 +9,6 @@ const initialState:User = {
 };
 
 export const reducer = (state = initialState, action: Actions) => {
-  console.log(state);
   switch (action.type) {
     case "ADD_CLIP":
       return {

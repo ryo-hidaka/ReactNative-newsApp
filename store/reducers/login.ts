@@ -7,17 +7,18 @@ import { login } from "../actions/login";
 import { Login } from "../../types/login";
 
 const initialState: Login = {
-  flag: true,
+  flag: false,
 };
 
 export const loginreducer = (state = initialState, action: LoginActions) => {
-  console.log(state);
   switch (action.type) {
     case "LOGIN":
+      return { flag: action.flag };
+    case "LOGOUT":
       return {
-        flag: state,
+        ...state,
+        flag: false,
       };
-
     default:
       return state;
   }

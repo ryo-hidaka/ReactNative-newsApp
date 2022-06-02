@@ -13,6 +13,9 @@ import { Article } from "../types/article";
 import { ListItem } from "../componetnts/ListItem";
 import dummyArticles from "../dummies/articles.json";
 import { RootStackParamList } from "../types/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/RootReducer";
+import { Login } from "../types/login";
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, "Home">;
@@ -22,7 +25,8 @@ export const HomeScreen = (props: Props) => {
   const { navigation } = props;
   const [articles, setArticles] = useState<Array<Article>>(dummyArticles);
   const URL = `https://newsapi.org/v2/top-headlines?country=jp&apiKey=${Constants.manifest.extra.newsApiKey}`;
-
+  const loginFlag = useSelector((state: RootState) => state.login)as Login;
+  console.log(loginFlag);
   useEffect(() => {
     fetchArticles();
   }, []);
