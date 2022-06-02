@@ -13,7 +13,7 @@ const initialState: Login = {
 export const loginreducer = (state = initialState, action: LoginActions) => {
   switch (action.type) {
     case "LOGIN":
-      return { flag: action.flag };
+      return { flag: !state.flag };
     case "LOGOUT":
       return {
         ...state,

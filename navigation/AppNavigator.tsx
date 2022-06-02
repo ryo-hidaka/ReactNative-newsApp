@@ -19,7 +19,7 @@ import { LoginState } from "../types/state";
 import { Login } from "../types/login";
 import { login } from "../store/actions/login";
 import { RootReducer, RootState } from "../store/RootReducer";
-
+import { AntDesign } from "@expo/vector-icons";
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -50,7 +50,7 @@ const Main = () => {
     //   <Stack.Screen name="Article" component={ArticleScreen} />
     // </Stack.Navigator>
 
-    <MainStack.Navigator>
+    <MainStack.Navigator initialRouteName="Home">
       <MainStack.Screen
         name="Home"
         component={HomeScreen}
@@ -77,14 +77,20 @@ const ClipStack = () => {
 const screenOption = ({ route }: Props): BottomTabNavigationOptions => ({
   tabBarIcon: ({ color, size }) => {
     type GlyphNames = ComponentProps<typeof FontAwesome>["name"];
+    type AntDesignGlyphNames = ComponentProps<typeof AntDesign>["name"];
+
     let iconName: GlyphNames;
+    let AntDesigniconName: AntDesignGlyphNames;
     if (route.name === "Home") {
       iconName = "home";
+      return <FontAwesome name={iconName} size={size} color={color} />;
     } else if (route.name === "Clip") {
       iconName = "bookmark";
+      return <FontAwesome name={iconName} size={size} color={color} />;
+    } else if (route.name === "Login") {
+      AntDesigniconName = "login";
+      return <AntDesign name={AntDesigniconName} size={size} color={color} />;
     }
-    // You can return any component that you like here!
-    return <FontAwesome name={iconName} size={size} color={color} />;
   },
 });
 
@@ -94,7 +100,15 @@ export const AppNagigator = () => {
 
   return (
     <>
-      {/* {loginFlag ? (
+      {loginFlag.flag ? (
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={screenOption}>
+            {/* <Tab.Screen name="Login" component={HomeStack} /> */}
+            <Tab.Screen name="Home" component={Main} />
+            <Tab.Screen name="Clip" component={ClipStack} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      ) : (
         <NavigationContainer>
           <RootStack.Navigator
             screenOptions={{ headerShown: false }}
@@ -104,14 +118,7 @@ export const AppNagigator = () => {
             <RootStack.Screen name="Login" component={AuthenticationScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
-      ) : ( */}
-        <NavigationContainer>
-          <Tab.Navigator screenOptions={screenOption}>
-            <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Clip" component={ClipStack} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      {/* )} */}
+      )}
     </>
   );
 };

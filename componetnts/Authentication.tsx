@@ -63,7 +63,9 @@ export const Authentication = () => {
       const loginFlag = useSelector((state: RootState) => state.login) as Login;
       console.log(loginFlag);
       dispatch(login(loginFlag));
-      const loginFlag2 = useSelector((state: RootState) => state.login) as Login;
+      const loginFlag2 = useSelector(
+        (state: RootState) => state.login
+      ) as Login;
       console.log(loginFlag2);
 
       // alert("認証成功");
@@ -85,6 +87,8 @@ export const Authentication = () => {
 };
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+
     alignItems: "center",
     justifyContent: "center",
   },

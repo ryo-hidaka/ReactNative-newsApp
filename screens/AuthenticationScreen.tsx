@@ -71,7 +71,8 @@ export const AuthenticationScreen = (props: Props) => {
       // navigation.navigate("MainStack");
       // //遷移先
       // console.log(loginFlag);
-
+      console.log(loginFlag);
+      dispatch(login(loginFlag));
       navigation.navigate("MainStack")
     } else {
       LocalAuthentication.cancelAuthenticate();
